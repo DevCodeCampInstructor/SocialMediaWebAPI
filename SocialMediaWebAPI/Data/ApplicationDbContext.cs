@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SocialMediaWebAPI.Configuration;
 using SocialMediaWebAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,11 @@ namespace SocialMediaWebAPI.Data
             :base(options)
         {
 
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new PostConfiguration());
         }
 
         public DbSet<Post> Posts { get; set; }

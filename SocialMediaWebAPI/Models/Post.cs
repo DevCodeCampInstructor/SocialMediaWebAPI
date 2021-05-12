@@ -20,8 +20,6 @@ namespace SocialMediaWebAPI.Models
         [MaxLength(500, ErrorMessage = "Content cannot exceed 500 characters")]
         public string Content { get; set; }
         public int Likes { get; set; }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime PostDate { get; set; }
     }
 }
