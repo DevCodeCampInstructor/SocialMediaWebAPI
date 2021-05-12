@@ -10,7 +10,7 @@ using SocialMediaWebAPI.Data;
 namespace SocialMediaWebAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210512194251_DatabaseCreation")]
+    [Migration("20210512194605_DatabaseCreation")]
     partial class DatabaseCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,6 +52,26 @@ namespace SocialMediaWebAPI.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Posts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Content = "I found a buffalo nickel!",
+                            Likes = 0,
+                            PostDate = new DateTime(2021, 5, 12, 14, 46, 5, 29, DateTimeKind.Local).AddTicks(9836),
+                            Title = "Look what I found!",
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Content = "Mine is Groundhog Day",
+                            Likes = 0,
+                            PostDate = new DateTime(2021, 5, 12, 14, 46, 5, 34, DateTimeKind.Local).AddTicks(869),
+                            Title = "Whats your favorite movie?",
+                            UserId = 1
+                        });
                 });
 
             modelBuilder.Entity("SocialMediaWebAPI.Models.User", b =>
@@ -73,7 +93,21 @@ namespace SocialMediaWebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FirstName = "David",
+                            LastName = "Lagrange"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            FirstName = "Michael",
+                            LastName = "Terrill"
+                        });
                 });
 
             modelBuilder.Entity("SocialMediaWebAPI.Models.Post", b =>

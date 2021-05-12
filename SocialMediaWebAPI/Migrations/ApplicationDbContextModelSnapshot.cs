@@ -57,7 +57,7 @@ namespace SocialMediaWebAPI.Migrations
                             Id = 1,
                             Content = "I found a buffalo nickel!",
                             Likes = 0,
-                            PostDate = new DateTime(2021, 5, 12, 14, 43, 7, 971, DateTimeKind.Local).AddTicks(6216),
+                            PostDate = new DateTime(2021, 5, 12, 14, 46, 5, 29, DateTimeKind.Local).AddTicks(9836),
                             Title = "Look what I found!",
                             UserId = 2
                         },
@@ -66,7 +66,7 @@ namespace SocialMediaWebAPI.Migrations
                             Id = 2,
                             Content = "Mine is Groundhog Day",
                             Likes = 0,
-                            PostDate = new DateTime(2021, 5, 12, 14, 43, 7, 975, DateTimeKind.Local).AddTicks(6496),
+                            PostDate = new DateTime(2021, 5, 12, 14, 46, 5, 34, DateTimeKind.Local).AddTicks(869),
                             Title = "Whats your favorite movie?",
                             UserId = 1
                         });
@@ -91,7 +91,7 @@ namespace SocialMediaWebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
 
                     b.HasData(
                         new

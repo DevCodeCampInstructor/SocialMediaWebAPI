@@ -21,7 +21,7 @@ namespace SocialMediaWebAPI.Data
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new PostConfiguration());
         }
-
+        public DbSet<User> Users { get; set; }
         public DbSet<Post> Posts { get; set; }
     }
 }

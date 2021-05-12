@@ -8,7 +8,7 @@ namespace SocialMediaWebAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -18,7 +18,7 @@ namespace SocialMediaWebAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -37,12 +37,32 @@ namespace SocialMediaWebAPI.Migrations
                 {
                     table.PrimaryKey("PK_Posts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Posts_User_UserId",
+                        name: "FK_Posts_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "User",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "FirstName", "LastName" },
+                values: new object[] { 1, "David", "Lagrange" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "FirstName", "LastName" },
+                values: new object[] { 2, "Michael", "Terrill" });
+
+            migrationBuilder.InsertData(
+                table: "Posts",
+                columns: new[] { "Id", "Content", "Likes", "PostDate", "Title", "UserId" },
+                values: new object[] { 2, "Mine is Groundhog Day", 0, new DateTime(2021, 5, 12, 14, 46, 5, 34, DateTimeKind.Local).AddTicks(869), "Whats your favorite movie?", 1 });
+
+            migrationBuilder.InsertData(
+                table: "Posts",
+                columns: new[] { "Id", "Content", "Likes", "PostDate", "Title", "UserId" },
+                values: new object[] { 1, "I found a buffalo nickel!", 0, new DateTime(2021, 5, 12, 14, 46, 5, 29, DateTimeKind.Local).AddTicks(9836), "Look what I found!", 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_UserId",
@@ -56,7 +76,7 @@ namespace SocialMediaWebAPI.Migrations
                 name: "Posts");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "Users");
         }
     }
 }
