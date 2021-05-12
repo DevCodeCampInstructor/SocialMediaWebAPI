@@ -28,6 +28,7 @@ namespace SocialMediaWebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureCors();
+            services.ConfigureSqlContext(Configuration);
             services.AddControllers();
         }
 

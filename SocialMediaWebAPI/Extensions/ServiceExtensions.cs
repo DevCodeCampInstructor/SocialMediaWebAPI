@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using SocialMediaWebAPI.Data;
+
 
 namespace SocialMediaWebAPI.Extensions
 {
@@ -16,5 +16,9 @@ namespace SocialMediaWebAPI.Extensions
                         .AllowAnyMethod()
                         .AllowAnyHeader());
             });
+
+        public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
+            services.AddDbContext<ApplicationDbContext>(opts =>
+                opts.UseSqlServer(configuration.GetConnectionString("sqlConnection")));
     }
 }
