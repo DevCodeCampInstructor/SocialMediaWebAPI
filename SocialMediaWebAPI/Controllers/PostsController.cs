@@ -19,7 +19,7 @@ namespace SocialMediaWebAPI.Controllers
             _context = context;
         }
         [HttpGet]
-        public IActionResult GetPostsForUser(int userId)
+        public IActionResult GetPostsForUser(string userId)
         {
             var user = _context.Users.Where(u => u.Id == userId).SingleOrDefault();
             if(user == null)
@@ -31,7 +31,7 @@ namespace SocialMediaWebAPI.Controllers
         }
 
         [HttpGet("{id}", Name = "GetPostForUser")]
-        public IActionResult GetPostForUser(int userId, int id)
+        public IActionResult GetPostForUser(string userId, int id)
         {
             var user = _context.Users.Where(u => u.Id == userId).SingleOrDefault();
             if (user == null)
@@ -48,7 +48,7 @@ namespace SocialMediaWebAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreatePostForUser(int userId, [FromBody] Post post)
+        public IActionResult CreatePostForUser(string userId, [FromBody] Post post)
         {
             var user = _context.Users.Where(u => u.Id == userId).SingleOrDefault();
             if (user == null)
@@ -63,7 +63,7 @@ namespace SocialMediaWebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdatePostForUser(int userId, int id, [FromBody] Post post)
+        public IActionResult UpdatePostForUser(string userId, int id, [FromBody] Post post)
         {
             var user = _context.Users.Where(u => u.Id == userId).SingleOrDefault();
             if (user == null)
@@ -83,7 +83,7 @@ namespace SocialMediaWebAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeletePostForUser(int userId, int id)
+        public IActionResult DeletePostForUser(string userId, int id)
         {
             var user = _context.Users.Where(u => u.Id == userId).SingleOrDefault();
             if (user == null)

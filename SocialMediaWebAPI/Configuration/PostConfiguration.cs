@@ -18,7 +18,7 @@ namespace SocialMediaWebAPI.Configuration
                     Content = "I found a buffalo nickel!",
                     Likes = 0,
                     PostDate = DateTime.Now,
-                    UserId = 2
+                    UserId = "36278af4-5e10-4afb-8651-182cbb49cd04"
                 },
                 new Post
                 {
@@ -27,7 +27,7 @@ namespace SocialMediaWebAPI.Configuration
                     Content = "Mine is Groundhog Day",
                     Likes = 0,
                     PostDate = DateTime.Now,
-                    UserId = 1
+                    UserId = "59944b4b-72e5-4329-9f8a-72eff632635d"
                 }
             );
         }

@@ -16,13 +16,13 @@ namespace SocialMediaWebAPI.Configuration
             (
                 new User
                 {
-                    Id = 1,
+                    Id = "36278af4-5e10-4afb-8651-182cbb49cd04",
                     FirstName = "David",
                     LastName = "Lagrange"
                 },
                 new User
                 {
-                    Id = 2,
+                    Id = "59944b4b-72e5-4329-9f8a-72eff632635d",
                     FirstName = "Michael",
                     LastName = "Terrill"
                 }
