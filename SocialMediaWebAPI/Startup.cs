@@ -31,6 +31,7 @@ namespace SocialMediaWebAPI
             services.ConfigureSqlContext(Configuration);
             services.AddAuthentication();
             services.ConfigureIdentity();
+            services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
         }
 
