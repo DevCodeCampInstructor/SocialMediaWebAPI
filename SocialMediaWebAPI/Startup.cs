@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using SocialMediaWebAPI.ActionFilters;
 using SocialMediaWebAPI.Extensions;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,7 @@ namespace SocialMediaWebAPI
             services.AddAuthentication();
             services.ConfigureIdentity();
             services.AddAutoMapper(typeof(Startup));
+            services.AddScoped<ValidationFilterAttribute>();
             services.AddControllers();
         }
 
