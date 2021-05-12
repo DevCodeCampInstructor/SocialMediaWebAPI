@@ -29,6 +29,8 @@ namespace SocialMediaWebAPI
         {
             services.ConfigureCors();
             services.ConfigureSqlContext(Configuration);
+            services.AddAuthentication();
+            services.ConfigureIdentity();
             services.AddControllers();
         }
 
@@ -49,6 +51,7 @@ namespace SocialMediaWebAPI
             });
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
