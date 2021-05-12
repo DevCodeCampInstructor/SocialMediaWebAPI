@@ -61,6 +61,44 @@ namespace SocialMediaWebAPI.Controllers
             _context.SaveChanges();
             return CreatedAtRoute("GetPostForUser", new { userId, id = post.Id }, post);
         }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdatePostForUser(int userId, int id, [FromBody] Post post)
+        {
+            var user = _context.Users.Where(u => u.Id == userId).SingleOrDefault();
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var postEntity = _context.Posts.Where(p => p.Id == id).SingleOrDefault();
+            if(postEntity == null)
+            {
+                return NotFound();
+            }
+            postEntity.Title = post.Title;
+            postEntity.Content = post.Content;
+            _context.Posts.Update(postEntity);
+            _context.SaveChanges();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeletePostForUser(int userId, int id)
+        {
+            var user = _context.Users.Where(u => u.Id == userId).SingleOrDefault();
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var post = _context.Posts.Where(p => p.Id == id).SingleOrDefault();
+            if(post == null)
+            {
+                return NotFound();
+            }
+            _context.Posts.Remove(post);
+            _context.SaveChanges();
+            return NoContent();
+        }
     }
 }
 
