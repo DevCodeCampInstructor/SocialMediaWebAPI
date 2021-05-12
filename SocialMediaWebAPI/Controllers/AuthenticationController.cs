@@ -19,5 +19,20 @@ namespace SocialMediaWebAPI.Controllers
             _userManager = userManager;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> RegisterUser([FromBody] User user)
+        {
+            var result = await _userManager.CreateAsync(user, user.PasswordHash);
+            if (!result.Succeeded)
+            {
+                foreach(var error in result.Errors)
+                {
+                    ModelState.TryAddModelError(error.Code, error.Description);
+                }
+                return BadRequest(ModelState);
+            }
+            await _userManager.AddToRoleAsync(user, "USER");
+            return StatusCode(201);
+        }
     }
 }
