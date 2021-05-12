@@ -10,7 +10,7 @@ using SocialMediaWebAPI.Data;
 namespace SocialMediaWebAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210512191000_DatabaseCreation")]
+    [Migration("20210512194251_DatabaseCreation")]
     partial class DatabaseCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,27 +44,47 @@ namespace SocialMediaWebAPI.Migrations
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Posts");
+                    b.HasIndex("UserId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Content = "I found a buffalo nickel!",
-                            Likes = 0,
-                            PostDate = new DateTime(2021, 5, 12, 14, 9, 59, 947, DateTimeKind.Local).AddTicks(5278),
-                            Title = "Look what I found!"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Content = "Mine is Groundhog Day",
-                            Likes = 0,
-                            PostDate = new DateTime(2021, 5, 12, 14, 9, 59, 953, DateTimeKind.Local).AddTicks(2502),
-                            Title = "Whats your favorite movie?"
-                        });
+                    b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("SocialMediaWebAPI.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("SocialMediaWebAPI.Models.Post", b =>
+                {
+                    b.HasOne("SocialMediaWebAPI.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

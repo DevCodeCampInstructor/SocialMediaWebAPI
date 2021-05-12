@@ -11,5 +11,11 @@ namespace SocialMediaWebAPI.Controllers
     [ApiController]
     public class PostsController : ControllerBase
     {
+        [HttpGet]
+        public IActionResult GetPostsForUser(int userId)
+        {
+            return Ok();
+        }
     }
 }
+

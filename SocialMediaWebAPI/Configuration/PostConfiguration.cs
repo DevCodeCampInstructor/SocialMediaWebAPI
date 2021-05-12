@@ -17,7 +17,8 @@ namespace SocialMediaWebAPI.Configuration
                     Title = "Look what I found!",
                     Content = "I found a buffalo nickel!",
                     Likes = 0,
-                    PostDate = DateTime.Now
+                    PostDate = DateTime.Now,
+                    UserId = 2
                 },
                 new Post
                 {
@@ -25,7 +26,8 @@ namespace SocialMediaWebAPI.Configuration
                     Title = "Whats your favorite movie?",
                     Content = "Mine is Groundhog Day",
                     Likes = 0,
-                    PostDate = DateTime.Now
+                    PostDate = DateTime.Now,
+                    UserId = 1
                 }
             );
         }
