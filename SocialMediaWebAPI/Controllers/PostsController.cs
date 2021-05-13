@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SocialMediaWebAPI.Data;
 using SocialMediaWebAPI.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SocialMediaWebAPI.Controllers
 {
@@ -22,6 +19,7 @@ namespace SocialMediaWebAPI.Controllers
         [HttpGet, Authorize]
         public IActionResult GetPostsForUser(string userId)
         {
+            var userFrom = this.HttpContext.User;
             var user = _context.Users.Where(u => u.Id == userId).SingleOrDefault();
             if(user == null)
             {

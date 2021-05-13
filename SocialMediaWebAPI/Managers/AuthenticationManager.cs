@@ -52,7 +52,8 @@ namespace SocialMediaWebAPI.Managers
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, _user.UserName)
+                new Claim(ClaimTypes.Name, _user.UserName),
+                new Claim(ClaimTypes.Email, _user.Id)
             };
 
             var roles = await _userManager.GetRolesAsync(_user);
@@ -70,7 +71,7 @@ namespace SocialMediaWebAPI.Managers
 
             var tokenOptions = new JwtSecurityToken
             (
-                issuer: jwtSettings.GetSection("validIssure").Value,
+                issuer: jwtSettings.GetSection("validIssuer").Value,
                 audience: jwtSettings.GetSection("validAudience").Value,
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings.GetSection("expires").Value)),

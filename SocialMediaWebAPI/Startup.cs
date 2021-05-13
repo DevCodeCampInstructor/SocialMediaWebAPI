@@ -25,11 +25,11 @@ namespace SocialMediaWebAPI
         {
             services.ConfigureCors();
             services.ConfigureSqlContext(Configuration);
+            services.AddAutoMapper(typeof(Startup));
+            services.AddScoped<ValidationFilterAttribute>();
             services.AddAuthentication();
             services.ConfigureIdentity();
             services.ConfigureJWT(Configuration);
-            services.AddAutoMapper(typeof(Startup));
-            services.AddScoped<ValidationFilterAttribute>();
             services.AddScoped<IAuthenticationManager, AuthenticationManager>();
             services.AddControllers();
         }
