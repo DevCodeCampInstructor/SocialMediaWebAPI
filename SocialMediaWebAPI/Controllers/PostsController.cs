@@ -4,10 +4,11 @@ using SocialMediaWebAPI.Data;
 using SocialMediaWebAPI.Models;
 using System;
 using System.Linq;
+using System.Security.Claims;
 
 namespace SocialMediaWebAPI.Controllers
 {
-    [Route("api/users/{userId}/posts")]
+    [Route("api/posts")]
     [ApiController]
     public class PostsController : ControllerBase
     {
@@ -17,10 +18,9 @@ namespace SocialMediaWebAPI.Controllers
             _context = context;
         }
         [HttpGet, Authorize]
-        public IActionResult GetPostsForUser(string userId)
+        public IActionResult GetPostsForUser()
         {
-            var userFrom = this.HttpContext.User;
-            var user = _context.Users.Where(u => u.Id == userId).SingleOrDefault();
+            var user = _context.Users.Where(u => u.UserName == User.FindFirstValue(ClaimTypes.Name)).SingleOrDefault();
             if(user == null)
             {
                 return NotFound();
@@ -29,10 +29,10 @@ namespace SocialMediaWebAPI.Controllers
             return Ok(posts);
         }
 
-        [HttpGet("{id}", Name = "GetPostForUser")]
-        public IActionResult GetPostForUser(string userId, int id)
+        [HttpGet("{id}"), Authorize]
+        public IActionResult GetPostForUser(int id)
         {
-            var user = _context.Users.Where(u => u.Id == userId).SingleOrDefault();
+            var user = _context.Users.Where(u => u.UserName == User.FindFirstValue(ClaimTypes.Name)).SingleOrDefault();
             if (user == null)
             {
                 return NotFound();
@@ -46,10 +46,10 @@ namespace SocialMediaWebAPI.Controllers
             return Ok(post);
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public IActionResult CreatePostForUser(string userId, [FromBody] Post post)
         {
-            var user = _context.Users.Where(u => u.Id == userId).SingleOrDefault();
+            var user = _context.Users.Where(u => u.UserName == User.FindFirstValue(ClaimTypes.Name)).SingleOrDefault();
             if (user == null)
             {
                 return NotFound();
@@ -58,18 +58,18 @@ namespace SocialMediaWebAPI.Controllers
             post.PostDate = DateTime.Now;
             _context.Posts.Add(post);
             _context.SaveChanges();
-            return CreatedAtRoute("GetPostForUser", new { userId, id = post.Id }, post);
+            return StatusCode(201, post);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize]
         public IActionResult UpdatePostForUser(string userId, int id, [FromBody] Post post)
         {
-            var user = _context.Users.Where(u => u.Id == userId).SingleOrDefault();
+            var user = _context.Users.Where(u => u.UserName == User.FindFirstValue(ClaimTypes.Name)).SingleOrDefault();
             if (user == null)
             {
                 return NotFound();
             }
-            var postEntity = _context.Posts.Where(p => p.Id == id).SingleOrDefault();
+            var postEntity = _context.Posts.Where(p => p.UserId == user.Id && p.Id == id).SingleOrDefault();
             if(postEntity == null)
             {
                 return NotFound();
@@ -81,15 +81,15 @@ namespace SocialMediaWebAPI.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize]
         public IActionResult DeletePostForUser(string userId, int id)
         {
-            var user = _context.Users.Where(u => u.Id == userId).SingleOrDefault();
+            var user = _context.Users.Where(u => u.UserName == User.FindFirstValue(ClaimTypes.Name)).SingleOrDefault();
             if (user == null)
             {
                 return NotFound();
             }
-            var post = _context.Posts.Where(p => p.Id == id).SingleOrDefault();
+            var post = _context.Posts.Where(p => p.UserId == user.Id && p.Id == id).SingleOrDefault();
             if(post == null)
             {
                 return NotFound();
@@ -97,6 +97,24 @@ namespace SocialMediaWebAPI.Controllers
             _context.Posts.Remove(post);
             _context.SaveChanges();
             return NoContent();
+        }
+        [HttpGet("{id}/likes/{likesAmount}"), Authorize]
+        public IActionResult UpdatePostLikes(int id, int likesAmount)
+        {
+            var user = _context.Users.Where(u => u.UserName == User.FindFirstValue(ClaimTypes.Name)).SingleOrDefault();
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var post = _context.Posts.Where(p => p.UserId == user.Id && p.Id == id).SingleOrDefault();
+            if (post == null)
+            {
+                return NotFound();
+            }
+            post.Likes += likesAmount;
+            _context.Posts.Update(post);
+            _context.SaveChanges();
+            return Ok(post);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace SocialMediaWebAPI.Models
@@ -23,6 +24,7 @@ namespace SocialMediaWebAPI.Models
         public DateTime PostDate { get; set; }
         [ForeignKey("User")]
         public string UserId { get; set; }
+        [JsonIgnore]
         public User User { get; set; }
     }
 }
