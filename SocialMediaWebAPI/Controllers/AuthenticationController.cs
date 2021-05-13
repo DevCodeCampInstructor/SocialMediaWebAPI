@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SocialMediaWebAPI.ActionFilters;
+using SocialMediaWebAPI.Contracts;
 using SocialMediaWebAPI.DataTransferObjects;
 using SocialMediaWebAPI.Models;
 using System;
@@ -18,10 +19,12 @@ namespace SocialMediaWebAPI.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
-        public AuthenticationController(IMapper mapper, UserManager<User> userManager)
+        private readonly IAuthenticationManager _authManager;
+        public AuthenticationController(IMapper mapper, UserManager<User> userManager, IAuthenticationManager authManager)
         {
             _mapper = mapper;
             _userManager = userManager;
+            _authManager = authManager;
         }
 
         [HttpPost]
@@ -42,6 +45,18 @@ namespace SocialMediaWebAPI.Controllers
             }
             await _userManager.AddToRoleAsync(user, "USER");
             return StatusCode(201);
+        }
+
+        [HttpPost("login")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user)
+        {
+            if(!await _authManager.ValidateUser(user))
+            {
+                return Unauthorized();
+            }
+
+            return Ok(new { Token = await _authManager.CreateToken() });
         }
     }
 }
