@@ -5,7 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SocialMediaWebAPI.ActionFilters;
+using SocialMediaWebAPI.Contracts;
 using SocialMediaWebAPI.Extensions;
+using SocialMediaWebAPI.Managers;
 
 namespace SocialMediaWebAPI
 {
@@ -28,6 +30,7 @@ namespace SocialMediaWebAPI
             services.ConfigureJWT(Configuration);
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<ValidationFilterAttribute>();
+            services.AddScoped<IAuthenticationManager, AuthenticationManager>();
             services.AddControllers();
         }
 
